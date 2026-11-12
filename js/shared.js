@@ -135,11 +135,11 @@ window.Suite = (function () {
       else if (cNo >= 0 && no) same = no === cur.no;
       else if (!stage && !dates) same = true;
       else same = !team.includes("개인");
-      /* 팀 이름(예: 목요일 1팀)이 바뀌거나 수업요일이 다르면 No가 같거나 비어 있어도 다른 반으로 나눠요 */
-      if (same && cur) {
+      /* No가 비어 있을 때만: 팀 이름(예: 목요일 1팀)이 바뀌거나 수업요일이 다르면 다른 반으로 나눠요. No가 같으면 언제나 한 반 */
+      if (same && cur && !sameNo) {
         const t = cTime >= 0 ? cleanTime(r[cTime]) : "";
         if (name && isTeamLabel(name) && cur.names.some(isTeamLabel) && !cur.names.includes(name)) same = false;
-        else if (!sameNo && stage && t && cur.time && !cur.time.split(" · ").some(x => norm(x) === norm(t))) same = false;
+        else if (stage && t && cur.time && !cur.time.split(" · ").some(x => norm(x) === norm(t))) same = false;
       }
       if (!same) { cur = { no, names: [], time: "", memo: "", segs: [], count: 0, team: false }; groups.push(cur); }
       if (name && !cur.names.includes(name)) cur.names.push(name);
