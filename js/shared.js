@@ -128,6 +128,8 @@ window.Suite = (function () {
       const memo = cMemo >= 0 ? String(r[cMemo] ?? "").trim() : "";
       if (!name && !stage && !dates) { if (cur && memo && !cur.memo) cur.memo = memo; continue; }
       const team = cTeam >= 0 ? norm(r[cTeam]) : "";
+      /* No가 같다고 적힌 줄(병합 포함)은 수업요일이 달라도 한 반이에요 (예: 월요일 독서1 + 수요일 몰입독서 플러스원팀) */
+      const sameNo = !!(cur && cNo >= 0 && no && no === cur.no);
       let same;
       if (!cur) same = false;
       else if (cNo >= 0 && no) same = no === cur.no;
@@ -137,7 +139,7 @@ window.Suite = (function () {
       if (same && cur) {
         const t = cTime >= 0 ? cleanTime(r[cTime]) : "";
         if (name && isTeamLabel(name) && cur.names.some(isTeamLabel) && !cur.names.includes(name)) same = false;
-        else if (stage && t && cur.time && norm(t) !== norm(cur.time)) same = false;
+        else if (!sameNo && stage && t && cur.time && !cur.time.split(" · ").some(x => norm(x) === norm(t))) same = false;
       }
       if (!same) { cur = { no, names: [], time: "", memo: "", segs: [], count: 0, team: false }; groups.push(cur); }
       if (name && !cur.names.includes(name)) cur.names.push(name);
@@ -146,7 +148,11 @@ window.Suite = (function () {
       const cnt = cCount >= 0 ? String(r[cCount] ?? "").normalize("NFKC").match(/\d+/) : null;
       const inName = name.normalize("NFKC").match(/(\d+)\s*명/);
       if (cnt) cur.count += +cnt[0]; else if (inName) cur.count += +inName[1];
-      if (!cur.time && cTime >= 0 && r[cTime]) cur.time = cleanTime(r[cTime]);
+      if (cTime >= 0 && r[cTime]) {
+        const t = cleanTime(r[cTime]);
+        if (!cur.time) cur.time = t;
+        else if (t && !cur.time.split(" · ").some(x => norm(x) === norm(t))) cur.time += " · " + t;
+      }
       if (!cur.memo && memo) cur.memo = memo;
       if (stage || dates) {
         const ho = cHo >= 0 ? String(r[cHo] ?? "").trim() : "";
