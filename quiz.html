@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>한우리 어휘 퀴즈</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap">
+<link rel="stylesheet" href="css/base.css?v=__V__">
+<link rel="stylesheet" href="css/quiz.css?v=__V__">
+</head>
+<body>
+<main class="wrap">
+  <header class="head">
+    <p class="brand">한우리 안산단원지부</p>
+    <h1 id="title">한우리 어휘 퀴즈</h1>
+  </header>
+
+  <!-- 1) 단계 고르기 -->
+  <section id="levels" class="card">
+    <h2>내 단계를 골라요</h2>
+    <div class="grid" id="levelList"></div>
+  </section>
+
+  <!-- 2) 차시·놀이 고르기 -->
+  <section id="setup" class="card" hidden>
+    <button type="button" class="back" id="toLevels">← 단계 다시 고르기</button>
+    <h2>몇 차시 낱말을 공부할까요?</h2>
+    <div class="chips" id="sessions"></div>
+    <h2>어떻게 공부할까요?</h2>
+    <div class="modes">
+      <button type="button" class="mode" data-mode="cards"><b>낱말 카드</b><span>카드를 눌러 뜻을 확인해요</span></button>
+      <button type="button" class="mode" data-mode="meaning"><b>뜻 보고 낱말 고르기</b><span>뜻에 맞는 낱말을 골라요</span></button>
+      <button type="button" class="mode" data-mode="blank"><b>빈칸 채우기</b><span>문장에 알맞은 낱말을 골라요</span></button>
+    </div>
+  </section>
+
+  <!-- 3) 낱말 카드 -->
+  <section id="cards" class="card" hidden>
+    <div class="bar"><button type="button" class="back" data-back>← 처음으로</button><span id="cardCount" class="count"></span></div>
+    <button type="button" class="flip" id="flip" aria-live="polite">
+      <span class="tag" id="cardTag"></span>
+      <span class="front" id="cardFront"></span>
+      <span class="backside" id="cardBack" hidden></span>
+      <span class="hint" id="cardHint">눌러서 뜻 보기</span>
+    </button>
+    <div class="nav">
+      <button type="button" id="prevCard">이전</button>
+      <button type="button" id="nextCard" class="primary">다음</button>
+    </div>
+  </section>
+
+  <!-- 4) 문제 풀기 -->
+  <section id="quiz" class="card" hidden>
+    <div class="bar"><button type="button" class="back" data-back>← 처음으로</button><span id="qCount" class="count"></span></div>
+    <div class="progress"><span id="progress"></span></div>
+    <p class="ask" id="ask"></p>
+    <p class="question" id="question"></p>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback" hidden></div>
+    <button type="button" class="primary wide" id="next" hidden>다음 문제</button>
+  </section>
+
+  <!-- 5) 결과 -->
+  <section id="result" class="card" hidden>
+    <p class="score" id="score"></p>
+    <p class="msg" id="scoreMsg"></p>
+    <div id="wrongBox" hidden>
+      <h2>다시 볼 낱말</h2>
+      <ul class="wrong" id="wrongList"></ul>
+    </div>
+    <div class="nav">
+      <button type="button" id="retryWrong" hidden>틀린 것만 다시</button>
+      <button type="button" id="retry" class="primary">다시 하기</button>
+    </div>
+    <button type="button" class="back center" data-back>← 처음으로</button>
+  </section>
+
+  <footer class="foot">한우리 안산단원지부 031-413-1919</footer>
+</main>
+<script src="data/vocab.js?v=__V__"></script>
+<script src="js/quiz.js?v=__V__"></script>
+</body>
+</html>

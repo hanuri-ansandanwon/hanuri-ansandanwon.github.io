@@ -1,6 +1,6 @@
 // 올리기 전 점검 (GitHub Actions가 main에 올릴 때마다 자동으로 돌려요. 내 컴퓨터에서 꼭 돌릴 필요는 없어요)
 // 1) 각 페이지에 꼭 있어야 하는 화면 요소  2) 페이지가 부르는 파일이 실제로 있는지  3) 외부 라이브러리 주소
-// 4) js/ · data/ 스크립트 문법  5) 과정 목록(data/catalog.js)  6) 활동리포트 표지 그림  7) 엑셀 양식 파일
+// 4) js/ · data/ 스크립트 문법  5) 과정 목록(data/catalog.js)  6) 활동리포트 표지 그림  7) 엑셀 양식 파일  8) 어휘 퀴즈 낱말(data/vocab.js)
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import vm from "node:vm";
 
@@ -8,6 +8,7 @@ const PAGES = {
   "index.html": ["tab-plan", "tab-homework", "tab-feedback", "f-plan", "f-homework", "f-feedback", "forms"],
   "plan.html": ["file", "classes", "catalogList", "viewer"],
   "homework.html": ["fileRoster", "fileHw", "hwEdit","blankXlsx", "list", "savePdf", "savePng", "saveXlsx", "saveStatus", "viewer"],
+  "quiz.html": ["levels", "levelList", "setup", "sessions", "cards", "flip", "quiz", "choices", "next", "result", "score"],
   "feedback.html": ["cls", "stage", "report", "common", "chips", "student", "checks", "memo", "gen", "alt", "text", "png", "copy", "all", "preview"],
 };
 const FORMS = ["반 명단 엑셀 (이름으로 적기).xlsx", "반 명단 엑셀 (팀 이름으로 적기).xlsx", "숙제 엑셀 (빈칸).xlsx", "한우리_수업도우미_사용안내.pptx", "한우리_수업도우미.html", "수업도우미_이럴땐이렇게.pdf"];
@@ -53,6 +54,18 @@ if (reports) {
   }
   if (missing.size) errors.push(`표지 그림이 없어요: ${[...missing].slice(0, 5).join(", ")}${missing.size > 5 ? " 외 " + (missing.size - 5) + "개" : ""}`);
   else console.log(`피드백 활동리포트 ${Object.keys(reports).length}개, 표지 그림 모두 있음`);
+}
+
+// data/vocab.js: 어휘 퀴즈 낱말 (단계 → 차시 → 낱말). 빈칸 예문에는 [정답]이 한 번 있어야 해요
+const vocab = loadData("data/vocab.js", "VOCAB");
+if (vocab) {
+  let n = 0;
+  for (const [lv, sessions] of Object.entries(vocab)) for (const s of sessions) for (const w of s.words) {
+    n++;
+    if (!w.w || !w.m) errors.push(`data/vocab.js: ${lv} ${s.session}에 낱말이나 뜻이 빈 칸이 있어요.`);
+    if (w.ex && (w.ex.match(/\[[^\]]+\]/g) || []).length !== 1) errors.push(`data/vocab.js: ${lv} ${s.session} '${w.w}' 예문에 [정답]이 한 번만 있어야 해요.`);
+  }
+  console.log(`어휘 퀴즈: ${Object.keys(vocab).length}개 단계, 낱말 ${n}개`);
 }
 
 for (const f of FORMS) if (!existsSync("forms/" + f)) errors.push(`엑셀 양식이 없어요: forms/${f}`);
