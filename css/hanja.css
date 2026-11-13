@@ -22,13 +22,33 @@
 .stage .st{flex:none;font-size:18px;color:var(--o);letter-spacing:1px}
 .hcard{border:2px solid var(--o);background:var(--o-soft);border-radius:18px;padding:18px 14px;text-align:center;margin-top:8px}
 .hchars{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
-.hch{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;min-width:62px;padding:6px 6px 5px}
-.hch b{display:block;font-family:"Noto Serif KR","Batang",serif;font-size:34px;line-height:1.15;color:var(--fg)}
+.hch{background:var(--surface);border:1px solid var(--line);border-radius:10px;min-width:54px;padding:4px 5px 3px}
+.hch b{display:block;font-family:"Noto Serif KR","Batang",serif;font-size:22px;line-height:1.15;color:var(--fg)}
 .hch span{display:block;font-size:12px;color:var(--muted);white-space:nowrap}
-.hword{font-size:30px;font-weight:900;margin:12px 0 4px;color:var(--o-dark)}
+.hword{font-size:34px;font-weight:900;margin:0 0 10px;color:var(--o-dark)}
+.hchars+.hmean{margin-top:12px}
 .hmean{font-size:18px;font-weight:700;margin:0;word-break:keep-all}
 .hex{font-size:16px;color:var(--muted);margin:10px 0 0;word-break:keep-all}
 .question.big{font-family:"Noto Serif KR","Batang",serif;font-size:42px;text-align:center;letter-spacing:.08em;margin:10px 0 18px}
 .stars{text-align:center;font-size:40px;letter-spacing:6px;color:var(--o);margin:0}
 .stars .off{color:var(--line)}
 .feedback small{display:block;color:var(--muted);margin-top:4px}
+/* 게임: 하트·점수·시간·콤보 */
+.hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.hearts{font-size:26px;letter-spacing:3px;line-height:1}
+.hearts .hon{color:#e8414a}
+.hearts .hoff{color:var(--line)}
+.hearts.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.pts{font-size:20px;font-weight:900;color:var(--o-dark)}
+.timebox{display:flex;align-items:center;gap:8px;margin:-8px 0 12px}
+.timebar{flex:1;height:10px;background:var(--soft);border-radius:99px;overflow:hidden}
+.timebar span{display:block;height:100%;width:100%;background:var(--good);border-radius:99px}
+.timebar span.hurry{background:var(--bad)}
+.sec{flex:none;width:38px;text-align:right;font-size:14px;font-weight:700;color:var(--muted)}
+.pop{position:relative;margin:0;height:0;text-align:center;font-size:22px;font-weight:900;color:var(--o);pointer-events:none}
+.pop.go{animation:pop 1s ease-out forwards}
+@keyframes pop{0%{opacity:0;transform:translateY(10px) scale(.8)}20%{opacity:1;transform:translateY(-6px) scale(1.1)}100%{opacity:0;transform:translateY(-34px)}}
+.restitle{text-align:center;font-size:22px;margin:0 0 4px}
+.scoreinfo{text-align:center;margin:0;color:var(--muted);font-size:15px}
+@media (prefers-reduced-motion: reduce){.hearts.shake,.pop.go{animation:none}.pop.go{opacity:1}}

@@ -22,7 +22,7 @@
   <section id="map" class="card">
     <div class="total" id="total"></div>
     <h2>어휘 회차를 골라요</h2>
-    <p class="note">한 회차는 5단계예요. 5단계까지 통과하면 다음 회차가 열려요.</p>
+    <p class="note">한 회차는 5단계예요. 하트 ♥ 3개로 시작해서, 하트가 남은 채로 끝까지 가면 통과! 5단계까지 통과하면 다음 회차가 열려요.</p>
     <div class="hoes" id="hoeList"></div>
   </section>
 
@@ -38,8 +38,8 @@
     <div class="bar"><button type="button" class="back" data-to="stages">← 단계 고르기</button><span id="studyCount" class="count"></span></div>
     <p class="ask" id="studyTag"></p>
     <div class="hcard">
-      <div class="hchars" id="hChars"></div>
       <p class="hword" id="hWord"></p>
+      <div class="hchars" id="hChars"></div>
       <p class="hmean" id="hMean"></p>
       <p class="hex" id="hEx"></p>
     </div>
@@ -53,7 +53,13 @@
   <!-- 4) 문제 풀기 -->
   <section id="quiz" class="card" hidden>
     <div class="bar"><button type="button" class="back" data-to="stages">← 단계 고르기</button><span id="qCount" class="count"></span></div>
+    <div class="hud">
+      <span class="hearts" id="hearts"></span>
+      <span class="pts" id="pts">0점</span>
+    </div>
     <div class="progress"><span id="progress"></span></div>
+    <div class="timebox"><div class="timebar"><span id="timer"></span></div><span class="sec" id="sec">20초</span></div>
+    <p class="pop" id="pop" hidden aria-live="polite"></p>
     <p class="ask" id="ask"></p>
     <p class="question" id="question"></p>
     <div class="choices" id="choices"></div>
@@ -63,8 +69,10 @@
 
   <!-- 5) 결과 -->
   <section id="result" class="card" hidden>
+    <h2 class="restitle" id="resTitle"></h2>
     <p class="stars" id="stars"></p>
     <p class="score" id="score"></p>
+    <p class="scoreinfo" id="scoreInfo"></p>
     <p class="msg" id="scoreMsg"></p>
     <div id="wrongBox" hidden>
       <h2>다시 볼 낱말</h2>
