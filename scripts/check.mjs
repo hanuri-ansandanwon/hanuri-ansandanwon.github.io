@@ -9,6 +9,7 @@ const PAGES = {
   "plan.html": ["file", "classes", "catalogList", "viewer"],
   "homework.html": ["fileRoster", "fileHw", "hwEdit","blankXlsx", "list", "savePdf", "savePng", "saveXlsx", "saveStatus", "viewer"],
   "quiz.html": ["levels", "levelList", "setup", "sessions", "cards", "flip", "quiz", "choices", "next", "result", "score"],
+  "hanja.html": ["map", "hoeList", "stages", "stageList", "study", "quiz", "choices", "next", "result", "score"],
   "feedback.html": ["cls", "stage", "report", "common", "chips", "student", "checks", "memo", "gen", "alt", "text", "png", "copy", "all", "preview"],
 };
 const FORMS = ["반 명단 엑셀 (이름으로 적기).xlsx", "반 명단 엑셀 (팀 이름으로 적기).xlsx", "숙제 엑셀 (빈칸).xlsx", "한우리_수업도우미_사용안내.pptx", "한우리_수업도우미.html", "수업도우미_이럴땐이렇게.pdf"];
@@ -66,6 +67,22 @@ if (vocab) {
     if (w.ex && (w.ex.match(/\[[^\]]+\]/g) || []).length !== 1) errors.push(`data/vocab.js: ${lv} ${s.session} '${w.w}' 예문에 [정답]이 한 번만 있어야 해요.`);
   }
   console.log(`어휘 퀴즈: ${Object.keys(vocab).length}개 단계, 낱말 ${n}개`);
+}
+
+// data/hanja.js: 중학 한자어·사자성어 (회차마다 한자어 10 + 사자성어 10, 한자 글자 수 = 낱말 글자 수 = 훈음 수)
+const hanja = loadData("data/hanja.js", "HANJA");
+if (hanja) {
+  let n = 0;
+  for (const h of hanja) for (const kind of ["hanja", "saja"]) {
+    if (!Array.isArray(h[kind]) || h[kind].length !== 10) errors.push(`data/hanja.js: 어휘${h.n} ${kind} 가 10개가 아니에요.`);
+    for (const w of h[kind] || []) {
+      n++;
+      if (!w.w || !w.m) errors.push(`data/hanja.js: 어휘${h.n}에 낱말이나 뜻이 빈 칸이 있어요.`);
+      if ([...w.h].length !== w.w.length || w.hun.length !== w.w.length) errors.push(`data/hanja.js: 어휘${h.n} '${w.w}' 한자·훈음 글자 수가 맞지 않아요.`);
+      if (w.ex && (w.ex.match(/\[[^\]]+\]/g) || []).length !== 1) errors.push(`data/hanja.js: 어휘${h.n} '${w.w}' 예문에 [정답]이 한 번만 있어야 해요.`);
+    }
+  }
+  console.log(`한자어·사자성어: ${hanja.length}개 회차, 낱말 ${n}개`);
 }
 
 for (const f of FORMS) if (!existsSync("forms/" + f)) errors.push(`엑셀 양식이 없어요: forms/${f}`);

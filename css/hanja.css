@@ -1,0 +1,34 @@
+/* 중학 한자어·사자성어(hanja.html): quiz.css 위에 더하는 것만 */
+.serif{font-family:"Noto Serif KR","Batang",serif}
+.total{display:flex;justify-content:space-between;align-items:center;background:var(--o-soft);border-radius:12px;padding:10px 14px;font-size:15px;color:var(--o-dark);font-weight:700}
+.total .bar2{flex:1;height:8px;background:var(--surface);border-radius:99px;margin:0 10px;overflow:hidden}
+.total .bar2 span{display:block;height:100%;background:var(--o)}
+.note{margin:-4px 0 12px;font-size:14px;color:var(--muted);word-break:keep-all}
+.hoes{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.hoe{position:relative;border:2px solid var(--o);background:var(--o-soft);border-radius:14px;padding:12px 4px 10px;font-size:17px;font-weight:900;color:var(--o-dark);line-height:1.3}
+.hoe small{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-top:3px;letter-spacing:.05em}
+.hoe.done{background:var(--o);color:#fff}
+.hoe.done small{color:#fff}
+.hoe.now{box-shadow:0 0 0 3px var(--o-dark)}
+.hoe:disabled,.stage:disabled{border-color:var(--line);background:var(--soft);color:var(--muted);cursor:default;opacity:.75}
+.hoe:active:not(:disabled),.stage:active:not(:disabled){transform:scale(.97)}
+.stagelist{display:grid;gap:10px}
+.stage{display:flex;align-items:center;gap:12px;text-align:left;border:1.5px solid var(--o);background:var(--surface);border-radius:14px;padding:13px 14px}
+.stage .no{flex:none;width:40px;height:40px;border-radius:50%;background:var(--o);color:#fff;font-weight:900;font-size:18px;display:flex;align-items:center;justify-content:center}
+.stage:disabled .no{background:var(--line);color:var(--muted)}
+.stage .tx{flex:1}
+.stage b{display:block;font-size:17px}
+.stage span{font-size:13px;color:var(--muted)}
+.stage .st{flex:none;font-size:18px;color:var(--o);letter-spacing:1px}
+.hcard{border:2px solid var(--o);background:var(--o-soft);border-radius:18px;padding:18px 14px;text-align:center;margin-top:8px}
+.hchars{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+.hch{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;min-width:62px;padding:6px 6px 5px}
+.hch b{display:block;font-family:"Noto Serif KR","Batang",serif;font-size:34px;line-height:1.15;color:var(--fg)}
+.hch span{display:block;font-size:12px;color:var(--muted);white-space:nowrap}
+.hword{font-size:30px;font-weight:900;margin:12px 0 4px;color:var(--o-dark)}
+.hmean{font-size:18px;font-weight:700;margin:0;word-break:keep-all}
+.hex{font-size:16px;color:var(--muted);margin:10px 0 0;word-break:keep-all}
+.question.big{font-family:"Noto Serif KR","Batang",serif;font-size:42px;text-align:center;letter-spacing:.08em;margin:10px 0 18px}
+.stars{text-align:center;font-size:40px;letter-spacing:6px;color:var(--o);margin:0}
+.stars .off{color:var(--line)}
+.feedback small{display:block;color:var(--muted);margin-top:4px}
