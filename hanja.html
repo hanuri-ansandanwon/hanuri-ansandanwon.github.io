@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>한우리 중학 한자어·사자성어</title>
+<meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Noto+Serif+KR:wght@700&display=swap">
@@ -18,8 +19,18 @@
     <h1 id="title">중학 한자어·사자성어</h1>
   </header>
 
+  <!-- 0) 비밀번호 -->
+  <section id="lock" class="card">
+    <h2>비밀번호를 넣어 주세요</h2>
+    <form id="lockForm" class="lockform" autocomplete="off">
+      <input id="pw" type="password" inputmode="numeric" aria-label="비밀번호" placeholder="비밀번호">
+      <button type="submit" class="primary">열기</button>
+    </form>
+    <p class="lockmsg" id="lockMsg" role="alert"></p>
+  </section>
+
   <!-- 1) 어휘1~17 고르기 -->
-  <section id="map" class="card">
+  <section id="map" class="card" hidden>
     <div class="total" id="total"></div>
     <h2>어휘 회차를 골라요</h2>
     <p class="note">한 회차는 5단계예요. 하트 ♥ 3개로 시작해서, 하트가 남은 채로 끝까지 가면 통과! 5단계까지 통과하면 다음 회차가 열려요.</p>
@@ -88,7 +99,7 @@
 
   <footer class="foot">한우리 안산단원지부 031-413-1919</footer>
 </main>
-<script src="data/hanja.js?v=__V__"></script>
+<script src="data/hanja.enc.js?v=__V__"></script>
 <script src="js/hanja.js?v=__V__"></script>
 </body>
 </html>

@@ -52,3 +52,9 @@
 .restitle{text-align:center;font-size:22px;margin:0 0 4px}
 .scoreinfo{text-align:center;margin:0;color:var(--muted);font-size:15px}
 @media (prefers-reduced-motion: reduce){.hearts.shake,.pop.go{animation:none}.pop.go{opacity:1}}
+/* 비밀번호 */
+.lockform{display:flex;gap:8px}
+.lockform input{flex:1;min-width:0;font:inherit;font-size:20px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;letter-spacing:.3em}
+.lockform input:focus{outline:none;border-color:var(--o)}
+.lockform button{flex:none;padding:0 22px;border-radius:12px}
+.lockmsg{min-height:1.5em;margin:10px 0 0;color:var(--bad);font-weight:700}

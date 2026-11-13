@@ -3,9 +3,9 @@
 // 단계마다 먼저 카드로 공부 → 게임(하트 3개·콤보·문제당 20초). 하트가 남은 채로 끝까지 가면 통과, 다음 단계(5단계 뒤에는 다음 회차)가 열려요.
 // 진행 기록은 이 휴대폰(브라우저)에만 저장돼요.
 // 주소: hanja.html?hoe=5 → 어휘5를 바로 열기(숙제 QR용) · hanja.html?all=1 → 모든 단계 열기(선생님 확인용)
-(function () {
+// 낱말은 data/hanja.enc.js 에 비밀번호로 잠겨 있어요. 맞는 비밀번호를 넣으면 풀어서 시작해요.
+function startHanja(DATA) {
   "use strict";
-  var DATA = window.HANJA || [];
   var KEY = "hanuri-hanja-v1";
     var STAGES = [
     { kind: "hanja", from: 0, to: 5, name: "한자어 1~5" },
@@ -43,7 +43,7 @@
 
   // ---------- 화면 ----------
   var st = { n: 0, s: 0, pool: [], card: 0, qs: [], i: 0, right: 0, wrong: [] };
-  var SCREENS = ["map", "stages", "study", "quiz", "result"];
+  var SCREENS = ["lock", "map", "stages", "study", "quiz", "result"];
   function show(id) {
     if (id !== "quiz") stopTimer(); // 문제 화면을 떠나면 시간을 멈춰요
     SCREENS.forEach(function (x) { $(x).hidden = x !== id; });
@@ -304,4 +304,40 @@
   var h = parseInt(params.get("hoe"), 10);
   if (hoeData(h)) { prog.opened[h] = true; save(); renderMap(); openHoe(h); }
   else { renderMap(); show("map"); }
+}
+
+(function () {
+  "use strict";
+  var LOCK = window.HANJA_LOCK, PWKEY = "hanuri-hanja-pw";
+  function b64(s) { var b = atob(s), a = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a; }
+  function unlock(pw) {
+    if (!LOCK || !window.crypto || !crypto.subtle) return Promise.reject(new Error("no crypto"));
+    return crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"])
+      .then(function (k) {
+        return crypto.subtle.deriveKey({ name: "PBKDF2", salt: b64(LOCK.salt), iterations: LOCK.it, hash: "SHA-256" }, k, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+      })
+      .then(function (key) { return crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(LOCK.iv) }, key, b64(LOCK.data)); })
+      .then(function (buf) { return JSON.parse(new TextDecoder().decode(buf)); });
+  }
+  function open(pw, quiet) {
+    var msg = document.getElementById("lockMsg");
+    if (!quiet) msg.textContent = "여는 중…";
+    return unlock(pw).then(function (data) {
+      try { localStorage.setItem(PWKEY, pw); } catch (e) {}
+      document.getElementById("lock").hidden = true;
+      startHanja(data);
+    }, function () {
+      try { localStorage.removeItem(PWKEY); } catch (e) {}
+      if (!quiet) { msg.textContent = "비밀번호가 맞지 않아요."; document.getElementById("pw").select(); }
+    });
+  }
+  document.getElementById("lockForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var pw = document.getElementById("pw").value.trim();
+    if (pw) open(pw);
+  });
+  // 한 번 연 휴대폰은 다음부터 비밀번호를 다시 묻지 않아요
+  var saved = null;
+  try { saved = localStorage.getItem(PWKEY); } catch (e) {}
+  if (saved) open(saved, true); else document.getElementById("pw").focus();
 })();
