@@ -1,14 +1,16 @@
 // 한우리 어휘 퀴즈 (quiz.html)
-// 주소 끝에 ?level=어휘1 처럼 붙이면 그 단계 화면이 바로 열려요 (QR코드용).
+// 주소 끝에 ?level=어휘1 처럼 붙이면 가장 최근 월호의 그 단계 화면이 바로 열려요 (QR코드용).
+// 지난 월호는 ?month=2026-12&level=어휘1 처럼 월호를 함께 붙여요.
 (function () {
   "use strict";
-  var V = window.VOCAB || {};
-  var LEVELS = Object.keys(V);
+  var ALL = window.VOCAB || {};
+  var MONTHS = Object.keys(ALL).sort().reverse(); // 최근 월호가 먼저
+  var V = {}, LEVELS = [];
   var $ = function (id) { return document.getElementById(id); };
   var SECTIONS = ["levels", "setup", "cards", "quiz", "result"];
   var ROUND = 10;
 
-  var st = { level: null, session: "전체", mode: null, pool: [], qs: [], i: 0, right: 0, wrong: [], card: 0 };
+  var st = { month: null, level: null, session: "전체", mode: null, pool: [], qs: [], i: 0, right: 0, wrong: [], card: 0 };
 
   function show(id) {
     SECTIONS.forEach(function (s) { $(s).hidden = s !== id; });
@@ -38,6 +40,28 @@
   }
   function answerForm(ex) { var m = ex.match(/\[([^\]]*)\]/); return m ? m[1] : ""; }
 
+  // ---------- 0) 월호 ----------
+  function setMonth(m) {
+    st.month = ALL[m] ? m : MONTHS[0];
+    V = (ALL[st.month] || {}).levels || {};
+    LEVELS = Object.keys(V);
+  }
+  function monthLabel() { return ((ALL[st.month] || {}).label || "").replace(/^\d{4}년\s*/, ""); }
+  function renderMonths() {
+    $("monthBox").hidden = MONTHS.length < 2;
+    var box = $("months"); box.textContent = "";
+    MONTHS.forEach(function (m) {
+      var b = el("button", "chip", ALL[m].label); b.type = "button";
+      b.setAttribute("aria-pressed", String(m === st.month));
+      b.addEventListener("click", function () { setMonth(m); renderMonths(); renderLevels(); });
+      box.appendChild(b);
+    });
+  }
+  function urlFor(lv) {
+    var q = "?level=" + encodeURIComponent(lv);
+    return st.month === MONTHS[0] ? q : "?month=" + st.month + "&level=" + encodeURIComponent(lv);
+  }
+
   // ---------- 1) 단계 ----------
   function renderLevels() {
     var box = $("levelList"); box.textContent = "";
@@ -52,9 +76,9 @@
   }
   function pickLevel(lv, push) {
     st.level = lv; st.session = "전체";
-    $("title").textContent = lv + " 어휘 퀴즈";
-    document.title = "한우리 어휘 퀴즈 - " + lv;
-    if (push) try { history.replaceState(null, "", "?level=" + encodeURIComponent(lv)); } catch (e) {}
+    $("title").textContent = monthLabel() + " " + lv + " 어휘 퀴즈";
+    document.title = "한우리 어휘 퀴즈 - " + monthLabel() + " " + lv;
+    if (push) try { history.replaceState(null, "", urlFor(lv)); } catch (e) {}
     renderSessions();
     show("setup");
   }
@@ -199,11 +223,14 @@
   });
   $("toLevels").addEventListener("click", function () {
     $("title").textContent = "한우리 어휘 퀴즈"; document.title = "한우리 어휘 퀴즈";
-    try { history.replaceState(null, "", location.pathname); } catch (e) {}
+    try { history.replaceState(null, "", st.month === MONTHS[0] ? location.pathname : "?month=" + st.month); } catch (e) {}
     show("levels");
   });
 
+  var qs = new URLSearchParams(location.search);
+  setMonth(qs.get("month"));
+  renderMonths();
   renderLevels();
-  var want = new URLSearchParams(location.search).get("level");
+  var want = qs.get("level");
   if (want && V[want]) pickLevel(want, false); else show("levels");
 })();

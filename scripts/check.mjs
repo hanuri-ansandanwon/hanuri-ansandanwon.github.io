@@ -57,16 +57,19 @@ if (reports) {
   else console.log(`피드백 활동리포트 ${Object.keys(reports).length}개, 표지 그림 모두 있음`);
 }
 
-// data/vocab.js: 어휘 퀴즈 낱말 (단계 → 차시 → 낱말). 빈칸 예문에는 [정답]이 한 번 있어야 해요
+// data/vocab.js: 어휘 퀴즈 낱말 (월호 → 단계 → 차시 → 낱말). 빈칸 예문에는 [정답]이 한 번 있어야 해요
 const vocab = loadData("data/vocab.js", "VOCAB");
 if (vocab) {
   let n = 0;
-  for (const [lv, sessions] of Object.entries(vocab)) for (const s of sessions) for (const w of s.words) {
-    n++;
-    if (!w.w || !w.m) errors.push(`data/vocab.js: ${lv} ${s.session}에 낱말이나 뜻이 빈 칸이 있어요.`);
-    if (w.ex && (w.ex.match(/\[[^\]]+\]/g) || []).length !== 1) errors.push(`data/vocab.js: ${lv} ${s.session} '${w.w}' 예문에 [정답]이 한 번만 있어야 해요.`);
+  for (const [mon, m] of Object.entries(vocab)) {
+    if (!/^\d{4}-\d{2}$/.test(mon) || !m.label || !m.levels) { errors.push(`data/vocab.js: 월호 '${mon}'는 "2027-01": { label, levels } 모양이어야 해요.`); continue; }
+    for (const [lv, sessions] of Object.entries(m.levels)) for (const s of sessions) for (const w of s.words) {
+      n++;
+      if (!w.w || !w.m) errors.push(`data/vocab.js: ${m.label} ${lv} ${s.session}에 낱말이나 뜻이 빈 칸이 있어요.`);
+      if (w.ex && (w.ex.match(/\[[^\]]+\]/g) || []).length !== 1) errors.push(`data/vocab.js: ${m.label} ${lv} ${s.session} '${w.w}' 예문에 [정답]이 한 번만 있어야 해요.`);
+    }
   }
-  console.log(`어휘 퀴즈: ${Object.keys(vocab).length}개 단계, 낱말 ${n}개`);
+  console.log(`어휘 퀴즈: ${Object.keys(vocab).length}개 월호, 낱말 ${n}개`);
 }
 
 // data/hanja.enc.js: 중학 한자어·사자성어 (비밀번호로 잠긴 낱말)
