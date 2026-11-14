@@ -78,10 +78,11 @@
   function renderCard() {
     var w = st.pool[st.card];
     $("cardCount").textContent = (st.card + 1) + " / " + st.pool.length;
-    $("cardTag").textContent = w.session + " · " + w.type + (w.p ? " · " + w.p : "");
+    $("cardTag").textContent = w.session + " · " + (w.c || w.type) + (w.p ? " · " + w.p : "");
     var f = $("cardFront"); f.textContent = w.w;
     if (w.h) f.appendChild(el("small", null, w.h));
     var b = $("cardBack"); b.textContent = w.m;
+    if (w.u) b.appendChild(el("em", null, w.u));
     if (w.ex) { var em = el("em"); em.appendChild(document.createTextNode("예) ")); fillSentence(em, w.ex, false); b.appendChild(em); }
     b.hidden = true; f.hidden = false;
     $("cardHint").textContent = "눌러서 뜻 보기";
