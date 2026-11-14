@@ -69,7 +69,9 @@ if (vocab) {
       if (w.ex && (w.ex.match(/\[[^\]]+\]/g) || []).length !== 1) errors.push(`data/vocab.js: ${m.label} ${lv} ${s.session} '${w.w}' 예문에 [정답]이 한 번만 있어야 해요.`);
     }
   }
-  console.log(`어휘 퀴즈: ${Object.keys(vocab).length}개 월호, 낱말 ${n}개`);
+  const months = Object.keys(vocab).sort();
+  if (months.length > 2) errors.push(`data/vocab.js: 어휘 퀴즈는 최근 2개 월호만 올려요. 가장 오래된 월호(${months.slice(0, months.length - 2).join(", ")})를 지워 주세요.`);
+  console.log(`어휘 퀴즈: ${months.length}개 월호, 낱말 ${n}개`);
 }
 
 // data/hanja.enc.js: 중학 한자어·사자성어 (비밀번호로 잠긴 낱말)

@@ -4,7 +4,7 @@
 (function () {
   "use strict";
   var ALL = window.VOCAB || {};
-  var MONTHS = Object.keys(ALL).sort().reverse(); // 최근 월호가 먼저
+  var MONTHS = Object.keys(ALL).sort().reverse().slice(0, 2); // 최근 2개 월호만 (최근 월호가 먼저)
   var V = {}, LEVELS = [];
   var $ = function (id) { return document.getElementById(id); };
   var SECTIONS = ["levels", "setup", "cards", "quiz", "result"];
