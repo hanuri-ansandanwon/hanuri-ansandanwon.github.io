@@ -2,104 +2,10 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>한우리 중학 한자어·사자성어</title>
-<meta name="robots" content="noindex,nofollow">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Noto+Serif+KR:wght@700&display=swap">
-<link rel="stylesheet" href="css/base.css?v=__V__">
-<link rel="stylesheet" href="css/quiz.css?v=__V__">
-<link rel="stylesheet" href="css/hanja.css?v=__V__">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>한우리 어휘퀴즈</title>
+<script src="js/go-quiz.js?v=__V__"></script>
+<meta http-equiv="refresh" content="1;url=/quiz/hanja.html">
 </head>
-<body>
-<main class="wrap">
-  <header class="head">
-    <p class="brand">한우리 안산단원지부</p>
-    <h1 id="title">중학 한자어·사자성어</h1>
-  </header>
-
-  <!-- 0) 비밀번호 -->
-  <section id="lock" class="card">
-    <h2>비밀번호를 넣어 주세요</h2>
-    <form id="lockForm" class="lockform" autocomplete="off">
-      <input id="pw" type="password" inputmode="numeric" aria-label="비밀번호" placeholder="비밀번호">
-      <button type="submit" class="primary">열기</button>
-    </form>
-    <p class="lockmsg" id="lockMsg" role="alert"></p>
-  </section>
-
-  <!-- 1) 어휘1~17 고르기 -->
-  <section id="map" class="card" hidden>
-    <div class="total" id="total"></div>
-    <h2>어휘 회차를 골라요</h2>
-    <p class="note">한 회차는 5단계예요. 하트 ♥ 3개로 시작해서, 하트가 남은 채로 끝까지 가면 통과! 5단계까지 통과하면 다음 회차가 열려요.</p>
-    <div class="hoes" id="hoeList"></div>
-  </section>
-
-  <!-- 2) 한 회차의 5단계 -->
-  <section id="stages" class="card" hidden>
-    <button type="button" class="back" id="toMap">← 회차 다시 고르기</button>
-    <h2 id="hoeTitle"></h2>
-    <div class="stagelist" id="stageList"></div>
-  </section>
-
-  <!-- 3) 먼저 공부하기 (카드) -->
-  <section id="study" class="card" hidden>
-    <div class="bar"><button type="button" class="back" data-to="stages">← 단계 고르기</button><span id="studyCount" class="count"></span></div>
-    <p class="ask" id="studyTag"></p>
-    <div class="hcard">
-      <p class="hword" id="hWord"></p>
-      <div class="hchars" id="hChars"></div>
-      <p class="hmean" id="hMean"></p>
-      <p class="hex" id="hEx"></p>
-    </div>
-    <div class="nav">
-      <button type="button" id="prevStudy">이전</button>
-      <button type="button" id="nextStudy" class="primary">다음</button>
-    </div>
-    <button type="button" class="back center" id="skipStudy">바로 문제 풀기 →</button>
-  </section>
-
-  <!-- 4) 문제 풀기 -->
-  <section id="quiz" class="card" hidden>
-    <div class="bar"><button type="button" class="back" data-to="stages">← 단계 고르기</button><span id="qCount" class="count"></span></div>
-    <div class="hud">
-      <span class="hearts" id="hearts"></span>
-      <span class="pts" id="pts">0점</span>
-    </div>
-    <div class="progress"><span id="progress"></span></div>
-    <div class="timebox"><div class="timebar"><span id="timer"></span></div><span class="sec" id="sec">20초</span></div>
-    <p class="pop" id="pop" hidden aria-live="polite"></p>
-    <p class="ask" id="ask"></p>
-    <p class="question" id="question"></p>
-    <div class="choices" id="choices"></div>
-    <div class="feedback" id="feedback" hidden></div>
-    <button type="button" class="primary wide" id="next" hidden>다음 문제</button>
-  </section>
-
-  <!-- 5) 결과 -->
-  <section id="result" class="card" hidden>
-    <h2 class="restitle" id="resTitle"></h2>
-    <p class="stars" id="stars"></p>
-    <p class="score" id="score"></p>
-    <p class="scoreinfo" id="scoreInfo"></p>
-    <p class="msg" id="scoreMsg"></p>
-    <div id="wrongBox" hidden>
-      <h2>다시 볼 낱말</h2>
-      <ul class="wrong" id="wrongList"></ul>
-    </div>
-    <button type="button" class="primary wide" id="goNext" hidden>다음 단계로 →</button>
-    <div class="nav">
-      <button type="button" id="restudy">다시 공부하기</button>
-      <button type="button" id="retry">문제 다시 풀기</button>
-    </div>
-    <button type="button" class="back center" data-to="stages">← 단계 고르기</button>
-  </section>
-
-  <footer class="foot">한우리 안산단원지부 031-413-1919</footer>
-</main>
-<script src="data/hanja.enc.js?v=__V__"></script>
-<script src="js/hanja.js?v=__V__"></script>
-</body>
+<body><p style="font-family:sans-serif;text-align:center;margin-top:40px"><a href="/quiz/hanja.html">한우리 어휘퀴즈로 이동해요 →</a></p></body>
 </html>
